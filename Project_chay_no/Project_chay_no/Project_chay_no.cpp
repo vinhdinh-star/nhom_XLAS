@@ -94,6 +94,24 @@ bool detectPerson(Mat& frame, HOGDescriptor& hog) {
     return !people.empty();
 }
 
+// phát hiện khói
+bool detectSmoke(Mat& frame) {
+    Mat hsv, mask;
+    cvtColor(frame, hsv, COLOR_BGR2HSV);
+
+    // khói: S thấp, V trung bình
+    Scalar lower(0, 0, 80);
+    Scalar upper(180, 60, 200);
+
+    inRange(hsv, lower, upper, mask);
+
+    int whitePixels = countNonZero(mask);
+    double ratio = (double)whitePixels / (frame.rows * frame.cols);
+
+    return ratio > 0.1; // 10% ảnh là khói
+}
+
+
 //main
 int main() {
     VideoCapture cap(0);
@@ -138,6 +156,10 @@ int main() {
 
         // 🔥 ƯU TIÊN CAO NHẤT
         if (fireTooClose) {
+             // 🔴 viền đỏ toàn màn hình
+             rectangle(frame, Rect(0, 0, frame.cols, frame.rows),
+                 Scalar(0, 0, 255), 10);
+            
             putText(frame, "DANGER! FIRE TOO CLOSE!", Point(50, 50),
                 FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 0, 255), 3);
             system("beep"); // 🔊 phát âm thanh
@@ -156,8 +178,14 @@ int main() {
                 putText(frame, "NO FIRE", Point(50, 50),
                     FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 255, 0), 2);
             }
-        }
+    bool smoke = detectSmoke(frame);
 
+        if (smoke) {
+           putText(frame, "SMOKE DETECTED!", Point(50, 120),
+               FONT_HERSHEY_SIMPLEX, 1, Scalar(200, 200, 200), 2);
+            }   
+        }
+    }
     cap.release();
     destroyAllWindows();
 
