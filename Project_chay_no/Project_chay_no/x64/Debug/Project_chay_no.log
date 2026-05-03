@@ -1,0 +1,6 @@
+﻿  Project_chay_no.cpp
+D:\file_work\C++\Project_chay_no\Project_chay_no\Project_chay_no.cpp(95,17): warning C4566: character represented by universal-character-name '\u1EDF' cannot be represented in the current code page (1252)
+D:\file_work\C++\Project_chay_no\Project_chay_no\Project_chay_no.cpp(95,17): warning C4566: character represented by universal-character-name '\u0111' cannot be represented in the current code page (1252)
+D:\file_work\C++\Project_chay_no\Project_chay_no\Project_chay_no.cpp(95,17): warning C4566: character represented by universal-character-name '\u01B0' cannot be represented in the current code page (1252)
+D:\file_work\C++\Project_chay_no\Project_chay_no\Project_chay_no.cpp(95,17): warning C4566: character represented by universal-character-name '\u1EE3' cannot be represented in the current code page (1252)
+D:\file_work\C++\Project_chay_no\Project_chay_no\Project_chay_no.cpp(91,12): error C1075: '{': no matching token found
