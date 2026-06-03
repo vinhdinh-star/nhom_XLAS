@@ -76,7 +76,7 @@ void drawAdvancedUI(Mat& canvas, bool hasPerson, bool fire, bool smoke, bool fir
 
     // LED Khói
     circle(canvas, Point(25, startY + spacing), 8, smoke ? Scalar(180, 180, 180) : Scalar(70, 70, 70), -1);
-    putText(canvas, smoke ? "KHOI: CANH BAO!" : "KHOI: DA DON", Point(45, startY + spacing + 5), FONT_HERSHEY_SIMPLEX, 0.45, Scalar(255, 255, 255), 1);
+    putText(canvas, smoke ? "KHOI: CANH BAO!" : "KHOI: KHONG CO KHOI", Point(45, startY + spacing + 5), FONT_HERSHEY_SIMPLEX, 0.45, Scalar(255, 255, 255), 1);
 
     // LED Lửa
     Scalar fireLed = Scalar(70, 70, 70);
