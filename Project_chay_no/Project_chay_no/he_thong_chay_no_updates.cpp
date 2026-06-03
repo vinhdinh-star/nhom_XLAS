@@ -53,16 +53,16 @@ void drawAdvancedUI(Mat& canvas, bool hasPerson, bool fire, bool smoke, bool fir
     line(canvas, Point(220, 0), Point(220, canvas.rows), Scalar(100, 100, 100), 1);
 
     // 2. Tiêu đề Phần mềm
-    putText(canvas, "CONTROL PANEL v2.0", Point(15, 25), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255, 255, 255), 2);
+    putText(canvas, "BANG DIEU KHIEN v2.0", Point(15, 25), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255, 255, 255), 2);
     line(canvas, Point(10, 35), Point(210, 35), Scalar(150, 150, 150), 1);
 
     // 3. Hiển thị logic trạng thái Mode tự động theo người
-    putText(canvas, "CONTEXT STATUS:", Point(15, 60), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(200, 200, 200), 1);
+    putText(canvas, "TRANG THAI BOI CANH:", Point(15, 60), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(200, 200, 200), 1);
     if (hasPerson) {
-        putText(canvas, "KITCHEN MODE", Point(15, 80), FONT_HERSHEY_SIMPLEX, 0.6, Scalar(0, 255, 255), 2);
+        putText(canvas, "CHE DO BEP", Point(15, 80), FONT_HERSHEY_SIMPLEX, 0.6, Scalar(0, 255, 255), 2);
     }
     else {
-        putText(canvas, "NORMAL MODE", Point(15, 80), FONT_HERSHEY_SIMPLEX, 0.6, Scalar(255, 255, 255), 2);
+        putText(canvas, "CHE DO NOMARL", Point(15, 80), FONT_HERSHEY_SIMPLEX, 0.6, Scalar(255, 255, 255), 2);
     }
 
     // 4. Khối đèn LED hiển thị trạng thái cảm biến vật lý
@@ -71,47 +71,53 @@ void drawAdvancedUI(Mat& canvas, bool hasPerson, bool fire, bool smoke, bool fir
 
     // LED Con người
     circle(canvas, Point(25, startY), 8, hasPerson ? Scalar(255, 0, 0) : Scalar(70, 70, 70), -1);
-    putText(canvas, hasPerson ? "PERSON: INSIDE" : "PERSON: NONE", Point(45, startY + 5), FONT_HERSHEY_SIMPLEX, 0.45, Scalar(255, 255, 255), 1);
+    //PERSON: INSIDE" : "PERSON: NONE
+    putText(canvas, hasPerson ? "NGUOI: BEN TRONG" : "NGUOI: KHONG CO", Point(45, startY + 5), FONT_HERSHEY_SIMPLEX, 0.45, Scalar(255, 255, 255), 1);
 
     // LED Khói
     circle(canvas, Point(25, startY + spacing), 8, smoke ? Scalar(180, 180, 180) : Scalar(70, 70, 70), -1);
-    putText(canvas, smoke ? "SMOKE: ALERT!" : "SMOKE: CLEAR", Point(45, startY + spacing + 5), FONT_HERSHEY_SIMPLEX, 0.45, Scalar(255, 255, 255), 1);
+    putText(canvas, smoke ? "KHOI: CANH BAO!" : "KHOI: DA DON", Point(45, startY + spacing + 5), FONT_HERSHEY_SIMPLEX, 0.45, Scalar(255, 255, 255), 1);
 
     // LED Lửa
     Scalar fireLed = Scalar(70, 70, 70);
     if (fireTooClose) fireLed = Scalar(0, 0, 255);
     else if (fire) fireLed = Scalar(0, 145, 255);
     circle(canvas, Point(25, startY + 2 * spacing), 8, fireLed, -1);
-    putText(canvas, fire ? "FIRE: DETECTED" : "FIRE: SAFE", Point(45, startY + 2 * spacing + 5), FONT_HERSHEY_SIMPLEX, 0.45, Scalar(255, 255, 255), 1);
+    //"FIRE: DETECTED" : "FIRE: SAFE"
+    putText(canvas, fire ? "FIRE: PHAT HIEN CHAY" : "FIRE: KHONG CO CHAY", Point(45, startY + 2 * spacing + 5), FONT_HERSHEY_SIMPLEX, 0.45, Scalar(255, 255, 255), 1);
 
     // 5. VẼ CÁC NÚT LỆNH ĐIỀU KHIỂN TƯƠNG TÁC CHUỘT
     line(canvas, Point(10, 310), Point(210, 310), Scalar(150, 150, 150), 1);
-    putText(canvas, "INTERACTIVE COMMANDS:", Point(15, 325), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(200, 200, 200), 1);
+    //INTERACTIVE COMMANDS:
+    putText(canvas, "LENH TUONG TAC:", Point(15, 325), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(200, 200, 200), 1);
 
     // Nút lệnh 1: Tự động Tắt khi có người / Bật khi không người (Ghi đè thủ công qua nút)
     Scalar btn1Color = isSystemEnabled ? Scalar(0, 180, 0) : Scalar(0, 0, 180);
     rectangle(canvas, btnToggleSystem, btn1Color, -1); // Vẽ nút đặc màu
     rectangle(canvas, btnToggleSystem, Scalar(255, 255, 255), 1); // Vẽ viền nút
-    string btn1Text = isSystemEnabled ? "SYS: ON (AUTO)" : "SYS: FORCE OFF";
+    string btn1Text = isSystemEnabled ? "SYS: BAT (TU DONG)" : "SYS: CUONG BUOC TAT"; //SYS: ON (AUTO)" : "SYS: FORCE OFF
     putText(canvas, btn1Text, Point(25, 362), FONT_HERSHEY_SIMPLEX, 0.45, Scalar(255, 255, 255), 1, LINE_AA);
 
     // Nút lệnh 2: Bật báo cháy khi tan ca / Tắt khi có người trực
     Scalar btn2Color = isAfterShiftMode ? Scalar(0, 0, 200) : Scalar(150, 100, 0);
     rectangle(canvas, btnToggleShift, btn2Color, -1);
     rectangle(canvas, btnToggleShift, Scalar(255, 255, 255), 1);
-    string btn2Text = isAfterShiftMode ? "MODE: AFTER SHIFT" : "MODE: ON DUTY";
+    string btn2Text = isAfterShiftMode ? "CHE ĐO: SAU CA LAM VIEC" : "CHE DO: DANG LAM NHIEM VU";
     putText(canvas, btn2Text, Point(25, 412), FONT_HERSHEY_SIMPLEX, 0.42, Scalar(255, 255, 255), 1, LINE_AA);
 
     // 6. Khối thông báo trạng thái Tổng hợp dưới đáy UI
     line(canvas, Point(10, canvas.rows - 45), Point(210, canvas.rows - 45), Scalar(150, 150, 150), 1);
     if (!isSystemEnabled) {
-        putText(canvas, "SYSTEM DISABLED BY USER", Point(15, canvas.rows - 20), FONT_HERSHEY_SIMPLEX, 0.42, Scalar(0, 0, 255), 1);
+        //SYSTEM DISABLED BY USER
+        putText(canvas, "HE THONG ĐA BI NGUOI DUNG VO HIEU HOA", Point(15, canvas.rows - 20), FONT_HERSHEY_SIMPLEX, 0.42, Scalar(0, 0, 255), 1);
     }
     else if (isAfterShiftMode) {
-        putText(canvas, "HIGH SECURITY ACTIVE", Point(15, canvas.rows - 20), FONT_HERSHEY_SIMPLEX, 0.42, Scalar(0, 255, 255), 1);
+        //HIGH SECURITY ACTIVE
+        putText(canvas, "BAO MAT CAO HOAT ĐONG", Point(15, canvas.rows - 20), FONT_HERSHEY_SIMPLEX, 0.42, Scalar(0, 255, 255), 1);
     }
     else {
-        putText(canvas, "MONITORING SYSTEM RUNNING", Point(15, canvas.rows - 20), FONT_HERSHEY_SIMPLEX, 0.41, Scalar(0, 255, 0), 1);
+        //MONITORING SYSTEM RUNNING
+        putText(canvas, "HE THONG GIAM SAT DANG HOAT DONG", Point(15, canvas.rows - 20), FONT_HERSHEY_SIMPLEX, 0.41, Scalar(0, 255, 0), 1);
     }
 }
 
@@ -200,7 +206,7 @@ int main() {
 
     Mat frame, prevFrame;
 
-    string windowName = "HỆ THỐNG GIÁM SÁT CHÁY NỔ - NHÓM_XLAS";
+    string windowName = "He Thong Giam Sat Chay No(Fire and Explosion Monitoring System) - NHOM_XLAS_PHCN";
     namedWindow(windowName, WINDOW_AUTOSIZE);
 
     // ĐĂNG KÝ SỰ KIỆN CHUỘT CHO CỬA SỔ UI CHÍNH
@@ -245,7 +251,8 @@ int main() {
         if (fireTooClose) {
             // 🔴 ƯU TIÊN CAO NHẤT: Lửa quá lớn/gần -> Báo động khẩn cấp không phụ thuộc vào trạng thái nút bấm
             rectangle(frame, Rect(0, 0, frame.cols, frame.rows), Scalar(0, 0, 255), 10);
-            putText(frame, "DANGER! FIRE TOO CLOSE!", Point(240, 50), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 0, 255), 2);
+            //DANGER! FIRE TOO CLOSE
+            putText(frame, "NGUY HIEM! LUA QUA GAN!", Point(240, 50), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 0, 255), 2);
             system("beep");
         }
         else if (isAfterShiftMode) {
@@ -262,20 +269,21 @@ int main() {
         else if (isSystemEnabled) {
             // 🟢 LOGIC KHI BẬT HỆ THỐNG (VẮNG NGƯỜI/TRẠNG THÁI THƯỜNG)
             if (fire) {
-                putText(frame, "FIRE DETECTED!", Point(240, 50), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 0, 255), 2);
+                putText(frame, "PHAT HIEN CHAY!", Point(240, 50), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 0, 255), 2);
                 system("beep");
             }
             else if (smoke) {
-                putText(frame, "SMOKE DETECTED!", Point(240, 110), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(200, 200, 200), 2);
+                putText(frame, "PHAT HIEN KHOI!", Point(240, 110), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(200, 200, 200), 2);
             }
         }
         else {
             // 🔵 CÓ NGƯỜI TRỰC HOẶC HỆ THỐNG TẮT: Chỉ hiển thị text nhắc nhở cảnh báo sớm trực quan, KHÔNG rú còi phiền hà
+            //NHẬT KÝ: LOG: FIRE MONITORING - LOG: SMOKE MONITORING
             if (fire) {
-                putText(frame, "LOG: FIRE MONITORING...", Point(240, 50), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 255, 255), 2);
+                putText(frame, "NHAT KY: GIAM SAT HOA HOAN...", Point(240, 50), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 255, 255), 2);
             }
             if (smoke) {
-                putText(frame, "LOG: SMOKE MONITORING...", Point(240, 110), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(200, 200, 200), 2);
+                putText(frame, "NHAT KY: GIAM SAT KHOI...", Point(240, 110), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(200, 200, 200), 2);
             }
         }
 
